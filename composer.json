@@ -1,0 +1,25 @@
+{
+  "name": "juanparati/csv2json",
+  "description": "The CSV to JSON conversion tool",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "license": "BSD",
+  "authors": [
+    {
+      "name": "Juan Lago",
+      "email": "juanparati@gmail.com"
+    }
+  ],
+  "config": {
+    "vendor-dir": "src/Vendor"
+  },
+  "scripts": {
+    "post-create-project-cmd": [
+      "@composer create-project mamuph/system src/System \"2.0\""
+    ]
+  },
+  "require": {
+    "juanparati/csvreader": "~1.0",
+    "league/climate": "3.4.1"
+  }
+}

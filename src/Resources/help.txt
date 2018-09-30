@@ -1,0 +1,43 @@
+<blue>
+    ______  ______ ____   ____ _____     _____  ______    ___  ____  _____
+  .' ___  .' ____ |_  _| |_  _/ ___ `.  |_   _.' ____ \ .'   `|_   \|_   _|
+ / .'   \_| (___ \_|\ \   / /|_/___) |    | | | (___ \_/  .-.  \|   \ | |
+ | |       _.____`.  \ \ / /  .'____.'_   | |  _.____`.| |   | || |\ \| |
+ \ `.___.'| \____) |  \ ' /  / /_____| |__' | | \____) \  `-'  _| |_\   |_
+  `.____ .'\______.'   \_/   |_______`.____.'  \______.'`.___.|_____|\____|</blue>v<red>#{{VERSION.MAJOR}}.#{{VERSION.MINOR}}</red>
+    Convert CSV to JSON Lines
+
+ Usage:
+  #{{__EXECUTABLE__}} file [--] [options]
+
+ Arguments:
+  file               CSV file
+
+ Options:
+   <green>--output=output.json</green>       Output file
+   <green>--delimiter=delimiter</green>      CSV column delimiter (See delimiters)
+   <green>--text-enclosure=enclosure</green> CSV text enclosure (See enclosures)
+   <green>--charset=charset</green>          CSV charset (Default UTF-8)
+   <green>--decimal-sep=separator</green>    CSV decimal separator (See decimal separators)
+   <green>--escape-char=escape_char</green>  CSV escape character
+   <green>--stream-filter=filter</green>     Apply stream filter
+   <green>-n</green>                         Disable interactive mode
+
+ Delimiters:
+   - semicolon  (;)
+   - comma      (,)
+   - pipe       (|)
+   - tab
+   - caret      (^)
+   - ampersand  (&)
+
+ Enclosures:
+   - tildes     (~)
+   - quotes     (")
+   - none
+
+  Decimal separators:
+   - point           (.)
+   - comma           (,)
+   - apostrophe      (')
+   - apostrophe_9995 (⎖)
