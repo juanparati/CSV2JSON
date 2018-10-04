@@ -23,6 +23,10 @@
    <green>--stream-filter=filter</green>     Apply stream filter
    <green>-n</green>                         Disable interactive mode
 
+ MongoDB options:
+   <green>--output-mongodb=host:port</green> Insert JSON into MongoDB server
+   <green>--collection=collection</green>    MongoDB collection
+
  Delimiters:
    - semicolon  (;)
    - comma      (,)

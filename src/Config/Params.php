@@ -14,6 +14,21 @@ return array(
         'accept_value'  => 'path',
         'value'         => false,
     ],
+    'output-mongodb' =>
+    [
+        'long_arg'      => 'output-mongodb',
+        'description'   => 'MongoDB server',
+        'optional'      => true,
+        'accept_value'  => 'url',
+        'value'         => false,
+    ],
+    'collection'     =>
+    [
+        'long_arg'      => 'collection',
+        'description'   => 'MongoDB collection',
+        'optional'      => true,
+        'value'         => 'csvmigration.main',
+    ],
     'delimiter' =>
     [
         'long_arg'      => 'delimiter',

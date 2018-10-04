@@ -75,6 +75,7 @@ class Controller_Main extends Controller
 
         $csv->setAutomaticMapField();
 
+        $interactive = false;
 
         // Open output file.
         // -----------------
@@ -83,8 +84,20 @@ class Controller_Main extends Controller
             $out_fp = fopen($output, 'w');
             $interactive = !Params::get('no-interactive');
         }
-        else
-            $interactive = false;
+
+        // Output to mongo
+        // ---------------
+        if ($output_mongodb = Params::get('output-mongodb'))
+        {
+            if (!extension_loaded('mongodb'))
+            {
+                $this->console->error('MongoDB extension is not loaded!');
+                Apprunner::terminate(Apprunner::EXIT_FAILURE);
+            }
+
+            $mongodb = new Model_Mongo($output_mongodb, Params::get('collection'));
+            $interactive = !Params::get('no-interactive');
+        }
 
 
         if ($interactive)
@@ -96,31 +109,47 @@ class Controller_Main extends Controller
             $start_time  = time();
         }
 
-        $buffer = '';
+        $buffer     = [];
+        $buffer_raw = [];
         $buffer_line = 0;
-
 
         // Read file and tranform to JSON lines.
         // -------------------------------------
         while ($row = $csv->readLine())
         {
+
             $json = json_encode($row, JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
 
             ++$total_lines;
 
-            if ($output)
+            if ($output || $output_mongodb)
             {
                 $json .= "\n";
 
                 // Write to file every time that 100 lines are reached.
                 // It is just for optimization purposes.
-                $buffer .= $json;
                 $buffer_line++;
+
+                if ($output)
+                    $buffer .= $json;
+
+                if ($output_mongodb)
+                    $buffer_raw[] = $row;
 
                 if ($buffer_line > static::BUFFER_LINES)
                 {
-                    fwrite($out_fp, $buffer);
-                    $buffer = '';
+                    if ($output)
+                    {
+                        fwrite($out_fp, $buffer);
+                        $buffer = '';
+                    }
+
+                    if ($output_mongodb)
+                    {
+                        $mongodb->insert($buffer_raw);
+                        $buffer_raw = [];
+                    }
+
                     $buffer_line = 0;
                 }
 
@@ -133,7 +162,14 @@ class Controller_Main extends Controller
 
         // Write last lines.
         if (!empty($buffer))
-            fwrite($out_fp, $buffer);
+        {
+            if ($output)
+                fwrite($out_fp, $buffer);
+
+            if ($output_mongodb)
+                $mongodb->insert($buffer_raw);
+        }
+
 
         if ($interactive)
         {
